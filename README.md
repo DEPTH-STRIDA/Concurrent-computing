@@ -1,30 +1,30 @@
-# Concurrent Computing
+# Concurrent-computing
 
-This repository contains a coursework project that simulates concurrent computing. The program is implemented in Java, and you can find the coursework details here.
+Разработаем программу, симулирующую конкурентную работу. Данная программа доступна на Java. Ищите курсовую.
 
-## Introduction
+## Введение
 
-In computer programming, concurrency refers to the ability of a computer to handle multiple tasks simultaneously. For example, when using a web browser, multiple things happen at once: downloading a file, listening to music, and scrolling through a web page in another tab. This means the computer performs several tasks at the same time. Without concurrency, we would have to wait for the file to download completely before continuing to listen to music or scroll through the website.
+В компьютерном программировании конкурентность — способность компьютера справляться с множеством разных задач одновременно. Давайте возьмем для примера использование браузера. Если мы гуляем по сети, происходит много вещей одновременно. Например, идет скачивание файла в то время как мы слушаем музыку и скролим веб-сайт в другой вкладке. Можно сказать, что компьютер выполняет несколько задач одновременно. Если бы компьютеры так не умели, нам бы пришлось ждать окончание скачивания файла, чтобы продолжить слушать музыку или скролить сайт.
 
-The architecture of a CPU is such that a single core can perform only one action at a time. Today, there are still many single-core processors on the market. But even with a single-core processor, we can download a file, listen to music, and browse a news feed simultaneously. This is achieved through concurrency. Let's look at a diagram demonstrating how a single-core CPU handles the browser example.
+Архитектура ЦПУ устроена таким образом, что одно ядро может выполнять лишь одно действие в единицу времени. В наши дни на рынке все еще есть множество одноядерных процессоров. Но если у вас компьютер с одноядерным процессором, то неужели мы не сможем скачивать файл, слушать музыку и листать новостную ленту в другой вкладке одновременно? Конечно, сможем, а достигается это с помощью конкурентности. Давайте посмотрим диаграмму, которая демонстрирует как одноядерный ЦПУ справляется с примером с браузером.
 
 ![image](https://github.com/DEPTH-STRIDA/Concurrent-computing/assets/92984389/08efeef9-7008-4ee6-8d79-048b788bdfc6)
 
-As we can see, all tasks are broken down into smaller pieces, which are prioritized, and the CPU constantly switches between them, creating the illusion of simultaneous execution.
+Как мы можем увидеть, все задачи разбиваются на кусочки, которые делятся по приоритетности, а ЦПУ постоянно переключается между ними, создавая иллюзию одновременного исполнения.
 
-## Program Description
+## Описание программы
 
-We will create a program in Go that receives pre-divided tasks and executes them. The program will be implemented using an event-driven programming model. The main loop in the central class will select and process events, with events being generated in the loop.
+Создадим программу на языке программирования Go, которая будет получать уже разбитые задачи и выполнять их. Программу реализуем с помощью событийно-ориентированной модели программирования. В центральном классе будет находиться основной цикл, который выбирает и обрабатывает событие, при этом создаются события в цикле.
 
-### Main Loop
+### Главный цикл
 
-The main loop processes a list of events, to which new events are dynamically added.
+Главный цикл обрабатывает список событий, в который динамически добавляются новые события.
 
-### Event Types
+### Типы событий
 
-There will be three types of events:
-1. **Request a new task and grant access to the processor:** Initially, we have one event of this type. When processed, it adds a task (increases L), adds the next event of the first type (removing the processed one), and if the processor is free, it adds the second event (processing the newly added task). The time associated with the event indicates when it occurred, meaning it executes immediately.
-2. **Task completion:** This event signifies the end of task processing and checks if there are any remaining tasks. If there are (L>0), it adds the next event of the second type. The time associated with the event indicates when the task ended.
-3. **Program termination:** This event occurs when a pre-planned task is completed or the maximum number of tasks is exceeded.
+У нас будет 3 типа событий:
+1. **Запрос новой задачи и предоставление доступа к процессору:** с самого начала у нас одно событие этого типа. При обработке происходит добавление задачи (увеличение L), добавление следующего события 1-го типа (с удалением обработанного), а если процессор свободен, то добавляется событие второго типа (обработка только что добавленной задачи). Время, которое идет вместе с кодом события, указывает в какой момент времени оно случилось, т.е. выполняется моментально.
+2. **Завершение обработки задачи:** данное событие символизирует конец обработки задачи и проверяет, остались ли еще задачи. Если (L>0) есть еще необработанные задачи, то добавляется следующее событие второго типа. Время, которое идет вместе с кодом события, указывает в какой момент времени закончилась работа задачи.
+3. **Завершение работы программы:** это событие происходит при выполнении заранее запланированной задачи или при переполнении максимального возможного количества задач.
 
-We will implement this program to demonstrate how concurrency can be managed and simulated on a single-core processor.
+Мы реализуем эту программу, чтобы продемонстрировать, как можно управлять и симулировать конкурентность на одноядерном процессоре.
